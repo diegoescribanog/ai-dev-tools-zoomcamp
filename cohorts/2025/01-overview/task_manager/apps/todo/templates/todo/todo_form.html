@@ -1,0 +1,34 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="glass-card mt-5 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold mb-0">{% if todo %}Edit{% else %}New{% endif %} Todo</h3>
+                <a href="{% url 'todo_list' %}" class="btn-close"></a>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Title</label>
+                    <input type="text" name="title" class="form-control" value="{{ todo.title|default:'' }}" required placeholder="Task title">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Description</label>
+                    <textarea name="description" class="form-control" rows="4" placeholder="Add details...">{{ todo.description|default:'' }}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Due Date</label>
+                    <input type="date" name="due_date" class="form-control" value="{{ todo.due_date|date:'Y-m-d' }}">
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                    <a href="{% url 'todo_list' %}" class="btn btn-light">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
